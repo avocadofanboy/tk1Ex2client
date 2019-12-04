@@ -6,6 +6,7 @@ import javax.jws.WebParam;
 import javax.jws.WebResult;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
+import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.ws.Action;
 
 
@@ -17,6 +18,9 @@ import javax.xml.ws.Action;
  */
 @WebService(name = "BookingService", targetNamespace = "http://Booking/")
 @SOAPBinding(style = SOAPBinding.Style.RPC)
+@XmlSeeAlso({
+    ObjectFactory.class
+})
 public interface BookingService {
 
 
@@ -32,5 +36,40 @@ public interface BookingService {
     public String login(
         @WebParam(name = "arg0", partName = "arg0")
         String arg0);
+
+    /**
+     * 
+     * @return
+     *     returns booking.FlightModel
+     */
+    @WebMethod
+    @WebResult(partName = "return")
+    @Action(input = "http://Booking/BookingService/getFlightsRequest", output = "http://Booking/BookingService/getFlightsResponse")
+    public FlightModel getFlights();
+
+    /**
+     * 
+     * @param arg3
+     * @param arg2
+     * @param arg4
+     * @param arg1
+     * @param arg0
+     * @return
+     *     returns boolean
+     */
+    @WebMethod
+    @WebResult(partName = "return")
+    @Action(input = "http://Booking/BookingService/bookSeatRequest", output = "http://Booking/BookingService/bookSeatResponse")
+    public boolean bookSeat(
+        @WebParam(name = "arg0", partName = "arg0")
+        String arg0,
+        @WebParam(name = "arg1", partName = "arg1")
+        String arg1,
+        @WebParam(name = "arg2", partName = "arg2")
+        String arg2,
+        @WebParam(name = "arg3", partName = "arg3")
+        String arg3,
+        @WebParam(name = "arg4", partName = "arg4")
+        int arg4);
 
 }

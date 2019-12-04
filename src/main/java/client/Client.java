@@ -9,8 +9,8 @@ public class Client {
 	   
 		BookingServiceImplService bookingService = new BookingServiceImplService();
 		BookingService port = bookingService.getBookingServiceImplPort();
-	
-		System.out.println(port.login("HELLO"));
+		
+		new ClientWindow(port);
 		
     }
 
