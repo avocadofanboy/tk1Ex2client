@@ -17,12 +17,12 @@ import java.awt.event.ActionListener;
 public class BookingSuccessfulContentPane extends JPanel {
 
 	private ClientWindow parent;
-	public BookingSuccessfulContentPane(String date, String flightName, String row, int seat, ClientWindow parent) {
+	public BookingSuccessfulContentPane(String date, String flightName, String row, int seat, int price, ClientWindow parent) {
 		setLayout(null);
 
 		this.parent = parent;
 		
-		JLabel lblCongratsYourFlight = new JLabel("Congrats! Your flight  was booked successfully.");
+		JLabel lblCongratsYourFlight = new JLabel("Congrats! " + flightName + " was booked successfully for €" + (price/100) + ".");
 		lblCongratsYourFlight.setBounds(6, 6, 438, 48);
 		add(lblCongratsYourFlight);
 		

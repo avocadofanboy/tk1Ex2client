@@ -11,16 +11,28 @@ import booking.FlightModel;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class FlightSelectionContentPane extends JPanel {
+public class FlightSelectionContentPane extends JPanel implements ActionListener {
+	
+	private ClientWindow parent;
+	
 	public FlightSelectionContentPane(FlightModel flights, ClientWindow parent) {
 		
-		
+		this.parent = parent;
 		setLayout(null);
 		
 		JLabel lblAvailableFlights = new JLabel("Available flights");
 		lblAvailableFlights.setBounds(6, 6, 112, 16);
 		add(lblAvailableFlights);
+		
+		int selectedBookings = parent.getSelectedBookingsCount();
+		JButton btnShoppingCart = new JButton("Shopping cart (" + selectedBookings + ")");
+		btnShoppingCart.setEnabled(selectedBookings != 0);
+		btnShoppingCart.setBounds(500, 6, 112, 16);
+		btnShoppingCart.addActionListener(this);
+		add(btnShoppingCart);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
@@ -32,5 +44,11 @@ public class FlightSelectionContentPane extends JPanel {
 		scrollPane.setBounds(6, 40, 800, 254);
 		add(scrollPane);
 		
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+
+		parent.onShowShoppingCart();
 	}
 }

@@ -21,6 +21,7 @@ import javax.xml.bind.annotation.XmlType;
  *       &lt;attribute name="flightName" type="{http://www.w3.org/2001/XMLSchema}string" />
  *       &lt;attribute name="date" type="{http://www.w3.org/2001/XMLSchema}string" />
  *       &lt;attribute name="seatId" type="{http://www.w3.org/2001/XMLSchema}string" />
+ *       &lt;attribute name="meal" type="{http://Booking/}mealType" />
  *     &lt;/restriction>
  *   &lt;/complexContent>
  * &lt;/complexType>
@@ -38,6 +39,8 @@ public class Booking {
     protected String date;
     @XmlAttribute(name = "seatId")
     protected String seatId;
+    @XmlAttribute(name = "meal")
+    protected MealType meal;
 
     /**
      * Gets the value of the flightName property.
@@ -109,6 +112,30 @@ public class Booking {
      */
     public void setSeatId(String value) {
         this.seatId = value;
+    }
+
+    /**
+     * Gets the value of the meal property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link MealType }
+     *     
+     */
+    public MealType getMeal() {
+        return meal;
+    }
+
+    /**
+     * Sets the value of the meal property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link MealType }
+     *     
+     */
+    public void setMeal(MealType value) {
+        this.meal = value;
     }
 
 }

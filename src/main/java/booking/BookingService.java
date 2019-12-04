@@ -51,6 +51,7 @@ public interface BookingService {
      * 
      * @param arg3
      * @param arg2
+     * @param arg5
      * @param arg4
      * @param arg1
      * @param arg0
@@ -70,6 +71,8 @@ public interface BookingService {
         @WebParam(name = "arg3", partName = "arg3")
         String arg3,
         @WebParam(name = "arg4", partName = "arg4")
-        int arg4);
+        int arg4,
+        @WebParam(name = "arg5", partName = "arg5")
+        MealType arg5);
 
 }

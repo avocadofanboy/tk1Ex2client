@@ -3,6 +3,8 @@ package client;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -10,16 +12,19 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 import booking.BookingService;
+import booking.Destination;
 import booking.Flight;
 import booking.FlightModel;
-import booking.Seat;
+import booking.MealType;
 
 public class ClientWindow extends JFrame implements ActionListener {
 	private JTextField textField;
 	private BookingService port;
 	private String clientId;
+	private List<BookingRequest> shoppingCart;
 	public ClientWindow(BookingService port) {
 
+		this.shoppingCart = new ArrayList<BookingRequest>();
 		this.port = port;
 		
 		getContentPane().setLayout(null);
@@ -65,10 +70,25 @@ public class ClientWindow extends JFrame implements ActionListener {
 		this.pack();
 	}
 	
-	public void onSeatSelected(String flightName, String date, String row, int seat) {
-		boolean success = this.port.bookSeat(this.clientId, date, flightName, row, seat);
+	public void onSeatSelected(String flightName, String date, String row, int seat, int price, Destination destination) {
+		this.setContentPane(new MealSelectionContentPane(flightName, date, row, seat, price, destination, this));
+		this.revalidate();
+		this.pack();
+	}
+	
+	public void onBookingSelected(String flightName, String date, String row, int seat, MealType meal, int price, Destination destination) {
+		
+		this.shoppingCart.add(new BookingRequest(this.clientId, date, flightName, row, seat, meal, price, destination));
+		this.setContentPane(new BookingSelectedContentPane(this));
+		this.revalidate();
+		this.pack();
+	}
+	
+	public void onBookingRequested(String flightName, String date, String row, int seat, MealType meal, int price) {
+		
+		boolean success = this.port.bookSeat(this.clientId, date, flightName, row, seat, meal);
 		if (success) {
-			this.setContentPane(new BookingSuccessfulContentPane(date, flightName, row, seat, this));
+			this.setContentPane(new BookingSuccessfulContentPane(date, flightName, row, seat, price, this));
 		} else {
 			this.setContentPane(new BookingUnsuccessfulContentPane(date, flightName, row, seat, this));
 		}
@@ -78,5 +98,13 @@ public class ClientWindow extends JFrame implements ActionListener {
 	public void onRestart() {
 
 		this.switchToFlightSelection();
+	}
+	public int getSelectedBookingsCount() {
+		return shoppingCart.size();
+	}
+	public void onShowShoppingCart() {
+		this.setContentPane(new ShoppingCartContentPane(shoppingCart, this));
+		this.revalidate();
+		this.pack();
 	}
 }

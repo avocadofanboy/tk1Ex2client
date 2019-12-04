@@ -24,6 +24,7 @@ public class SeatListPanel extends JPanel implements ActionListener {
 	private Flight flight;
 	private ClientWindow parent;
 	private String date;
+	private List<Seat> seats;
 	
 	public SeatListPanel(Flight flight, String date, ClientWindow parent) {
 		
@@ -50,7 +51,7 @@ public class SeatListPanel extends JPanel implements ActionListener {
 			String rowName = e.getKey();
 			JPanel row = new JPanel();
 			row.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-			List<Seat> seats = e.getValue().getItem();
+			this.seats = e.getValue().getItem();
 			for (Seat seat : seats) {
 			
 				boolean enabled = false;
@@ -61,7 +62,6 @@ public class SeatListPanel extends JPanel implements ActionListener {
 					title = "booked";
 				} else {
 					title = "<html>" + rowName + seats.indexOf(seat) + "<br />" + getSeatClassString(seat.getSeatType()) + "<br /> (" + (flight.getDestination().getBasePriceInCents() + getSeatPrice(flight, seat)) / 100 + "€)</html>";
-					//title = rowName + seats.indexOf(seat) + " (" + (flight.getDestination().getBasePriceInCents() + getSeatPrice(flight, seat)) / 100 + "€)";
 					enabled = true;
 				}
 				JButton button = new JButton(title);
@@ -117,7 +117,7 @@ public class SeatListPanel extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		String row = e.getActionCommand().substring(0, 1);
 		int seat = Integer.valueOf(e.getActionCommand().substring(1));
-		parent.onSeatSelected(this.flight.getName(), date, row, seat);
+		parent.onSeatSelected(this.flight.getName(), date, row, seat, (this.flight.getDestination().getBasePriceInCents() + getSeatPrice(this.flight, seats.get(seat))), this.flight.getDestination());
 	}
 
 	
